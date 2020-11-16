@@ -4,8 +4,6 @@ from aqt.utils import tooltip
 def force_stop_reviews(card):
 	total_cards = to_learn()
 	config = mw.addonManager.getConfig(__name__)
-	config = {"reviews_left": config["reviews_left"]}
-	mw.addonManager.writeConfig(__name__, config)
 
 	if total_cards == config["reviews_left"]:
 		tooltip(f"You now have {total_cards} cards left to review.")
