@@ -1,5 +1,4 @@
 from aqt import mw, gui_hooks
-from aqt.qt import *
 from aqt.utils import tooltip
 
 def force_stop_reviews(card):
@@ -10,6 +9,7 @@ def force_stop_reviews(card):
 	mw.addonManager.writeConfig(__name__, config)
 
 	if currently >= config["max_reviews"]:
+		tooltip(f"You reviewed {currently} cards.")
 		mw.moveToState("deckBrowser")
 		config = {"max_reviews": config["max_reviews"], "current_reviews": 0}
 		mw.addonManager.writeConfig(__name__, config)
