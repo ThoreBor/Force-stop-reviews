@@ -34,7 +34,7 @@ def overview_options(overview, content):
 	due = values[config_deck_index][0]
 	new = values[config_deck_index][1]
 	content.table += f"""\n<div>Force stop reviews when <input type="number" id="due" value="{due}" style="width: 50px" onChange="pycmd('changeDue:'+ this.value)"> due cards, or 
-	<input type="number" id="new" value="{new}" style="width: 50px" onChange="pycmd('changeNew:' + this.value)"> new cards are left in this deck.</div><div id="test"></div>
+	<input type="number" id="new" value="{new}" style="width: 50px" onChange="pycmd('changeNew:' + this.value)"> new cards are left in the parent deck.</div><div id="test"></div>
 	"""
 
 def overview_link_handler_wrapper(overview, url):
@@ -75,7 +75,10 @@ def active_deck_index():
 	config = mw.addonManager.getConfig(__name__)
 	deck_id = mw.col.get_config("activeDecks", [1])
 	current_deck = mw.col.decks.get(deck_id[0])
-	config_deck_index = config["decks"].index(current_deck["name"])
+	current_deck = current_deck["name"]
+	if "::" in current_deck:
+		current_deck = current_deck.split("::")[0]
+	config_deck_index = config["decks"].index(current_deck)
 	return config_deck_index
 
 Overview._linkHandler = wrap(Overview._linkHandler, overview_link_handler_wrapper, "after")
